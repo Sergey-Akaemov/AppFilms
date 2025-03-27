@@ -1,38 +1,52 @@
 package ru.devakaemov.myapplication
 
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var topAppBar: MaterialToolbar
+    private lateinit var bottomNavigationView: BottomNavigationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        findViewById<Button>(R.id.button_menu).setOnClickListener {
-            Toast.makeText(this, "МЕНЮ", Toast.LENGTH_SHORT).show()
+        topAppBar = findViewById(R.id.topAppBar)
+        topAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.settings -> {
+                    Toast.makeText(this, "Настройки", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
         }
 
-        findViewById<Button>(R.id.button_favorites).setOnClickListener {
-            Toast.makeText(this, "ИЗБРАННОЕ", Toast.LENGTH_SHORT).show()
-        }
-
-        findViewById<Button>(R.id.button_watch_later).setOnClickListener {
-            Toast.makeText(this, "ПОСМОТРЕТЬ ПОЗЖЕ", Toast.LENGTH_SHORT).show()
-        }
-
-        findViewById<Button>(R.id.button_collection).setOnClickListener {
-            Toast.makeText(this, "ПОДБОРКИ", Toast.LENGTH_SHORT).show()
-        }
-
-        findViewById<Button>(R.id.button_settings).setOnClickListener {
-            Toast.makeText(this, "НАСТРОЙКИ", Toast.LENGTH_SHORT).show()
+        bottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.favorites -> {
+                    Toast.makeText(this, "Избранное", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.watch_later -> {
+                    Toast.makeText(this, "Посмотреть позже", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.collection -> {
+                    Toast.makeText(this, "Подборки", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
