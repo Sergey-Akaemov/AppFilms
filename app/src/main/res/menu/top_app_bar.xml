@@ -4,25 +4,25 @@
 
     <item
         android:id="@+id/settings"
-        android:title="@string/menu_settings_title"
         android:icon="@drawable/round_settings"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/menu_settings_title"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/favorites"
-        android:title="@string/menu_favorites_title"
         android:icon="@drawable/round_favorite"
-        app:showAsAction="withText"/>
+        android:title="@string/menu_favorites_title"
+        app:showAsAction="withText" />
 
     <item
         android:id="@+id/watch_later"
-        android:title="@string/menu_watch_later_title"
         android:icon="@drawable/round_watch_later"
-        app:showAsAction="withText"/>
+        android:title="@string/menu_watch_later_title"
+        app:showAsAction="withText" />
 
     <item
         android:id="@+id/collection"
-        android:title="@string/menu_collection_title"
         android:icon="@drawable/round_video_library"
-        app:showAsAction="withText"/>
+        android:title="@string/menu_collection_title"
+        app:showAsAction="withText" />
 </menu>

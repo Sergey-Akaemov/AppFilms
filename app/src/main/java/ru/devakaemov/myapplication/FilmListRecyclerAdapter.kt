@@ -5,7 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.devakaemov.myapplication.databinding.FilmItemBinding
 
-class FilmListRecyclerAdapter (private val clickListener: OnItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FilmListRecyclerAdapter(private val clickListener: OnItemClickListener) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val items = mutableListOf<Film>()
 

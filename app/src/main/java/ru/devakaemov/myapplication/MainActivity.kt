@@ -6,14 +6,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import ru.devakaemov.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private var backPressed = 0L
-    private lateinit var topAppBar: MaterialToolbar
-    private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var binding: ActivityMainBinding
 
     fun launchDetailsFragment(film: Film) {
         val bundle = Bundle().apply {
@@ -33,7 +31,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         supportFragmentManager
             .beginTransaction()
@@ -41,37 +40,43 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack(null)
             .commit()
 
-        topAppBar = findViewById(R.id.topAppBar)
-        topAppBar.setOnMenuItemClickListener { menuItem ->
+        binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.settings -> {
                     Toast.makeText(this, "Настройки", Toast.LENGTH_SHORT).show()
                     true
                 }
+
                 else -> false
             }
         }
 
-        bottomNavigationView = findViewById(R.id.bottom_navigation)
-        bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
+        binding.bottomNavigation.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.favorites -> {
-                    Toast.makeText(this, "Избранное", Toast.LENGTH_SHORT).show()
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fragment_placeholder, FavoritesFragment())
+                        .addToBackStack(null)
+                        .commit()
                     true
                 }
+
                 R.id.watch_later -> {
                     Toast.makeText(this, "Посмотреть позже", Toast.LENGTH_SHORT).show()
                     true
                 }
+
                 R.id.collection -> {
                     Toast.makeText(this, "Подборки", Toast.LENGTH_SHORT).show()
                     true
                 }
+
                 else -> false
             }
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -91,6 +96,7 @@ class MainActivity : AppCompatActivity() {
             super.onBackPressed()
         }
     }
+
     companion object {
         const val TIME_INTERVAL = 2000
     }
