@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ru.devakaemov.myapplication.databinding.FragmentHomeBinding
 import ru.devakaemov.myapplication.databinding.MergeHomeScreenContentBinding
 import java.util.Locale
@@ -23,6 +24,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var filmsAdapter: FilmListRecyclerAdapter
+    private var isSearchViewVisible = true
 
     private val filmsDataBase = listOf(
         Film(
@@ -134,7 +136,61 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             val decorator = TopSpacingItemDecoration(8)
             addItemDecoration(decorator)
+
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (dy > 0 && isSearchViewVisible) {
+                        hideSearchView()
+                    } else if (dy < 0 && !isSearchViewVisible) {
+                        showSearchView()
+                    }
+                }
+            })
         }
         filmsAdapter.addItems(filmsDataBase)
+
+        _binding!!.searchView.setOnClickListener {
+            _binding!!.searchView.isIconified = false
+        }
+        _binding!!.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.isEmpty()) {
+                    filmsAdapter.addItems(filmsDataBase)
+                    return true
+                }
+                val result = filmsDataBase.filter {
+                    it.title.toLowerCase(Locale.getDefault())
+                        .contains(newText.toLowerCase(Locale.getDefault()))
+                }
+                filmsAdapter.addItems(result)
+                return true
+            }
+        })
+    }
+    private fun hideSearchView() {
+        _binding!!.searchView.animate()
+            .translationY(-_binding!!.searchView.height.toFloat())
+            .setDuration(300)
+            .withEndAction {
+                isSearchViewVisible = false
+            }
+    }
+    private fun showSearchView() {
+        _binding!!.searchView.animate()
+            .translationY(0f)
+            .setDuration(300)
+            .withEndAction {
+                isSearchViewVisible = true
+            }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        bindingFragment = null
+        _binding = null
     }
 }
