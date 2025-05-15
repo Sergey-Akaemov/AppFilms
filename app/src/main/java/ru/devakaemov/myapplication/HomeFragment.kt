@@ -1,6 +1,11 @@
 package ru.devakaemov.myapplication
 
 import android.os.Bundle
+import android.transition.Scene
+import android.transition.Slide
+import android.transition.TransitionManager
+import android.transition.TransitionSet
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +13,13 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.devakaemov.myapplication.databinding.FragmentHomeBinding
+import ru.devakaemov.myapplication.databinding.MergeHomeScreenContentBinding
 import java.util.Locale
 
 class HomeFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
+    private var bindingFragment: FragmentHomeBinding? = null
+    private var _binding: MergeHomeScreenContentBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var filmsAdapter: FilmListRecyclerAdapter
@@ -74,12 +81,23 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
+        bindingFragment = FragmentHomeBinding.inflate(inflater,container,false)
+        _binding = MergeHomeScreenContentBinding.inflate(inflater, container,false)
+        return bindingFragment!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val scene = Scene(bindingFragment!!.homeFragmentRoot, binding.root)
+        val searchSlide = Slide(Gravity.TOP).addTarget(R.id.search_view)
+        val recyclerSlide = Slide(Gravity.BOTTOM).addTarget(R.id.main_recycler)
+        val customTransition = TransitionSet().apply {
+            duration = 600
+            addTransition(recyclerSlide)
+            addTransition(searchSlide)
+        }
+        TransitionManager.go(scene, customTransition)
 
         _binding!!.searchView.setOnClickListener {
             _binding!!.searchView.isIconified = false

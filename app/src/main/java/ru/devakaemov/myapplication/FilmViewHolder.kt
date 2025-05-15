@@ -1,6 +1,7 @@
 package ru.devakaemov.myapplication
 
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import ru.devakaemov.myapplication.databinding.FilmItemBinding
 
 class FilmViewHolder(private val bindingItem: FilmItemBinding) :
@@ -10,8 +11,10 @@ class FilmViewHolder(private val bindingItem: FilmItemBinding) :
 
         bindingItem.itemContainer.setOnClickListener { clickListener.click(film) }
         bindingItem.title.text = film.title
-        bindingItem.poster.setImageResource(film.poster)
+        Glide.with(itemView)
+            .load(film.poster)
+            .centerCrop()
+            .into(bindingItem.poster)
         bindingItem.description.text = film.description
     }
-
 }
