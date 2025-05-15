@@ -81,8 +81,8 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bindingFragment = FragmentHomeBinding.inflate(inflater,container,false)
-        _binding = MergeHomeScreenContentBinding.inflate(inflater, container,false)
+        bindingFragment = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = MergeHomeScreenContentBinding.inflate(inflater, container, false)
         return bindingFragment!!.root
     }
 
