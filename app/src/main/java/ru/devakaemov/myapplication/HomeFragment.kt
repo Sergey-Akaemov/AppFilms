@@ -20,8 +20,7 @@ import java.util.Locale
 class HomeFragment : Fragment() {
 
     private var bindingFragment: FragmentHomeBinding? = null
-    private var _binding: MergeHomeScreenContentBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = bindingFragment!!
 
     private lateinit var filmsAdapter: FilmListRecyclerAdapter
     private var isSearchViewVisible = true
@@ -84,28 +83,19 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         bindingFragment = FragmentHomeBinding.inflate(inflater, container, false)
-        _binding = MergeHomeScreenContentBinding.inflate(inflater, container, false)
         return bindingFragment!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val scene = Scene(bindingFragment!!.homeFragmentRoot, binding.root)
-        val searchSlide = Slide(Gravity.TOP).addTarget(R.id.search_view)
-        val recyclerSlide = Slide(Gravity.BOTTOM).addTarget(R.id.main_recycler)
-        val customTransition = TransitionSet().apply {
-            duration = 600
-            addTransition(recyclerSlide)
-            addTransition(searchSlide)
-        }
-        TransitionManager.go(scene, customTransition)
+        AnimationHelper.performFragmentCircularRevealAnimation(binding.root, requireActivity(), 1)
 
-        _binding!!.searchView.setOnClickListener {
-            _binding!!.searchView.isIconified = false
+        binding.searchView.setOnClickListener {
+            binding.searchView.isIconified = false
         }
 
-        _binding!!.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return true
             }
@@ -150,10 +140,10 @@ class HomeFragment : Fragment() {
         }
         filmsAdapter.addItems(filmsDataBase)
 
-        _binding!!.searchView.setOnClickListener {
-            _binding!!.searchView.isIconified = false
+        binding.searchView.setOnClickListener {
+            binding.searchView.isIconified = false
         }
-        _binding!!.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return true
             }
@@ -172,25 +162,22 @@ class HomeFragment : Fragment() {
             }
         })
     }
+
     private fun hideSearchView() {
-        _binding!!.searchView.animate()
-            .translationY(-_binding!!.searchView.height.toFloat())
+        binding.searchView.animate()
+            .translationY(-binding.searchView.height.toFloat())
             .setDuration(300)
             .withEndAction {
                 isSearchViewVisible = false
             }
     }
+
     private fun showSearchView() {
-        _binding!!.searchView.animate()
+        binding.searchView.animate()
             .translationY(0f)
             .setDuration(300)
             .withEndAction {
                 isSearchViewVisible = true
             }
-    }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        bindingFragment = null
-        _binding = null
     }
 }

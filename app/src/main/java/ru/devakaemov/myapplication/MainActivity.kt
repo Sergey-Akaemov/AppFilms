@@ -61,41 +61,30 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.favorites -> {
-                    supportFragmentManager
-                        .beginTransaction()
-                        .setCustomAnimations(
-                            R.anim.enter_from_right,
-                            R.anim.exit_to_left,
-                            R.anim.enter_from_left,
-                            R.anim.exit_to_right
-                        )
-                        .replace(R.id.fragment_placeholder, FavoritesFragment())
-                        .addToBackStack(null)
-                        .commit()
                     val tag = "favorites"
                     val fragment = checkFragmentExistence(tag)
-                    changeFragment(fragment?: HomeFragment(), tag)
+                    changeFragment(fragment ?: FavoritesFragment(), tag)
                     true
                 }
 
                 R.id.home -> {
                     val tag = "home"
                     val fragment = checkFragmentExistence(tag)
-                    changeFragment(fragment?: HomeFragment(), tag)
+                    changeFragment(fragment ?: HomeFragment(), tag)
                     true
                 }
 
                 R.id.watch_later -> {
                     val tag = "watch_later"
                     val fragment = checkFragmentExistence(tag)
-                    changeFragment(fragment?: HomeFragment(), tag)
+                    changeFragment(fragment ?: WatchLaterFragment(), tag)
                     true
                 }
 
-                R.id.collection -> {
-                    val tag = "collection"
+                R.id.selection -> {
+                    val tag = "selection"
                     val fragment = checkFragmentExistence(tag)
-                    changeFragment(fragment?: HomeFragment(), tag)
+                    changeFragment(fragment ?: SelectionsFragment(), tag)
                     true
                 }
 
@@ -128,7 +117,8 @@ class MainActivity : AppCompatActivity() {
         const val TIME_INTERVAL = 2000
     }
 
-    private fun checkFragmentExistence(tag: String): Fragment? = supportFragmentManager.findFragmentByTag(tag)
+    private fun checkFragmentExistence(tag: String): Fragment? =
+        supportFragmentManager.findFragmentByTag(tag)
 
     private fun changeFragment(fragment: Fragment, tag: String) {
         supportFragmentManager

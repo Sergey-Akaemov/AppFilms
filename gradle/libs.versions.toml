@@ -1,5 +1,6 @@
 [versions]
 agp = "8.8.1"
+animatedVectorDrawable = "28.0.0"
 dynamicanimation = "1.0.0"
 glide = "4.11.0"
 kotlin = "1.9.24"
@@ -14,16 +15,20 @@ activity = "1.10.1"
 constraintlayout = "2.2.1"
 materialVersion = "<version>"
 recyclerview = "1.4.0"
+supportVectorDrawable = "28.0.0"
 timber = "4.7.1"
 navigationFragment = "2.8.9"
 navigationUiKtx = "2.8.9"
 coordinatorlayout = "1.3.0"
 transition = "1.4.1"
+mediarouter = "1.7.0"
 
 [libraries]
+android-support-vector-drawable = { module = "com.android.support:support-vector-drawable", version.ref = "supportVectorDrawable" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-dynamicanimation = { module = "androidx.dynamicanimation:dynamicanimation", version.ref = "dynamicanimation" }
 androidx-transition = { module = "androidx.transition:transition", version.ref = "transition" }
+animated-vector-drawable = { module = "com.android.support:animated-vector-drawable", version.ref = "animatedVectorDrawable" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -40,6 +45,7 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 androidx-coordinatorlayout = { group = "androidx.coordinatorlayout", name = "coordinatorlayout", version.ref = "coordinatorlayout" }
+androidx-mediarouter = { group = "androidx.mediarouter", name = "mediarouter", version.ref = "mediarouter" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

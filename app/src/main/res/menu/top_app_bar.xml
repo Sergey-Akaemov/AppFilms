@@ -26,7 +26,7 @@
         app:showAsAction="withText" />
 
     <item
-        android:id="@+id/collection"
+        android:id="@+id/selection"
         android:icon="@drawable/round_video_library"
         android:title="@string/menu_collection_title"
         app:showAsAction="withText" />
